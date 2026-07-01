@@ -1,0 +1,10 @@
+{:itonami.blueprint/id "cloud-itonami-isco-3255"
+ :itonami.blueprint/name "Independent Physiotherapy Support Practice"
+ :itonami.blueprint/isco-08 "3255"
+ :itonami.blueprint/domain :health/physiotherapy-support
+ :itonami.blueprint/license "AGPL-3.0-or-later"
+ :itonami.blueprint/social-impact [:care-access :patient-safety :local-jobs]
+ :itonami.blueprint/governor :physiotherapy-support-governor
+ :itonami.blueprint/robotics true
+ :itonami.blueprint/required-technologies [:robotics :identity :forms :dmn :bpmn :audit-ledger]
+ :itonami.blueprint/status :public-oss}
