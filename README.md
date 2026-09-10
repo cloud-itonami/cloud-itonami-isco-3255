@@ -62,17 +62,17 @@ human-in-the-loop interrupt/resume via checkpointing.
                                            +-> :hold               (:hard? true)
 ```
 
-- `src/physiotherapy_support/store.cljc` — `Store` protocol +
+- `src/physiotherapy_support/store.kotoba` — `Store` protocol +
   `MemStore`: registered clients, committed records, an append-only
   audit ledger.
-- `src/physiotherapy_support/advisor.cljc` — `Advisor` protocol;
+- `src/physiotherapy_support/advisor.kotoba` — `Advisor` protocol;
   `mock-advisor` (deterministic, default) proposes a support operation
   from a request; `llm-advisor` wraps a `langchain.model/ChatModel` —
   either way the advisor only ever produces a `:propose`-effect
   proposal, never a committed record, and LLM parse failures always
   yield `confidence 0.0` (forces escalation, never fabricated
   confidence).
-- `src/physiotherapy_support/governor.cljc` —
+- `src/physiotherapy_support/governor.kotoba` —
   `PhysiotherapySupportGovernor/check`: a pure function, wired as its
   own `:govern` node. Hard invariants (unregistered client, a proposal
   whose `:effect` isn't `:propose`) always route to `:hold`. Escalation
@@ -83,7 +83,7 @@ human-in-the-loop interrupt/resume via checkpointing.
   robotics-premise statement that direct physical manipulation of a
   patient's body and exercises involving fall risk always require
   human sign-off.
-- `src/physiotherapy_support/actor.cljc` — `build-graph`,
+- `src/physiotherapy_support/actor.kotoba` — `build-graph`,
   `run-request!`, `approve!`: the `langgraph.graph/state-graph` wiring
   itself.
 
