@@ -1,0 +1,33 @@
+;; What this occupation's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; README "Robotics premise": a mobility-assist robot supports
+;; exercise-equipment setup and supervised movement-assist tasks (ISCO 3255
+;; physiotherapy technicians and assistants). Its physical work: racking the
+;; dumbbells used in a session, and setting a moist hot pack over towel layers
+;; on the patient before exercise.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-3255"
+ :cases
+ [{:id :dumbbell-to-rack
+   :kind :manipulator
+   :procedure "arm lifts a dumbbell from the session cart to the upper tier of the equipment rack"
+   :params {:l1-m 0.50 :l2-m 0.45 :m1-kg 6.0 :m2-kg 4.0
+            :from [0.60 0.10] :to [0.30 0.70] :duration-s 2.5 :steps 500}
+   :sweep {:param :payload-kg :values [1.0 2.0 5.0 8.0 10.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 120.0 :basis "estimate: continuous shoulder torque of a ~10 kg-payload collaborative arm"}
+   :boundary {:lo 0.5 :hi 30.0}}
+  {:id :hot-pack-through-towels
+   :kind :thermal
+   :procedure "20-minute moist hot pack (surface held at 75 °C) over terry towel layers; skin-side towel surface temperature"
+   :params {:conductivity-w-mk 0.06 :density-kg-m3 300.0 :specific-heat-j-kgk 1300.0
+            :t0-c 30.0 :t-hot-c 75.0 :front-fixed? true :t-back-ambient-c 34.0 :h-back-w-m2k 25.0
+            :threshold-c 43.0 :duration-s 1200.0}
+   :sweep {:param :thickness-m :values [0.005 0.0075 0.01 0.015 0.02 0.03]}
+   :quantity :final-back-c
+   :limit {:max 43.0 :basis "estimate: 43 °C, the long-contact (>= 10 min) applied-part surface limit of IEC 60601-1 Table 24, borrowed for a towel-wrapped hot pack that is not ME equipment"}
+   :boundary {:lo 0.003 :hi 0.03}}]}
